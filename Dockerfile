@@ -57,21 +57,18 @@ RUN set -x && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV LISTEN_ADDR 0.0.0.0:53
-ENV RESOLVER_ADDR 176.56.237.171:443
-ENV PROVIDER_NAME 2.dnscrypt-cert.resolver1.dnscrypt.eu
-ENV PROVIDER_KEY 67C0:0F2C:21C5:5481:45DD:7CB4:6A27:1AF2:EB96:9931:40A3:09B6:2B8D:1653:1185:9C66 
+ENV RESOLVER_NAME dnscrypt.eu-nl
 ENV LOGLEVEL 6
 ENV EDNS_PAYLOAD_SIZE 1252
+ENV EPHEMERAL "--ephemeral-keys"
 
 EXPOSE 53/tcp 53/udp
 
 CMD /opt/dnscrypt-proxy/sbin/dnscrypt-proxy \
                    --user=_dnscrypt-proxy \
                    --local-address=$LISTEN_ADDR \
-                   --provider-name=$PROVIDER_NAME \
-                   --provider-key=$PROVIDER_KEY \
-                   --resolver-address=$RESOLVER_ADDR \
+                   --resolver-name=$RESOLVER_NAME \
                    --loglevel=$LOGLEVEL \
                    --edns-payload-size=$EDNS_PAYLOAD_SIZE \
-                   --ephemeral-keys
+                   $EPHEMERAL
 #
